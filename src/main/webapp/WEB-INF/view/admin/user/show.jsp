@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>User</title>
+        <title> User</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -33,39 +33,28 @@
                   <li class="breadcrumb-item active">
                     <a href="/admin/user">User</a>
                   </li>
+                  <li class="breadcrumb-item active">
+                    <a href="/admin/user/create">User detail</a>
+                  </li>
                 </ol>
 
                 <div class=" mt-5">
                   <div class="d-flex justify-content-between mb-3">
-                    <h2 class="title">Table user</h2>
-                    <a class="text-light text-decoration-none btn btn-success d-flex align-items-center"
-                      href="/admin/user/create">Create new user</a>
+                    <h2 class="title">User detail: ${id}</h2>
                   </div>
-                  <table class="table table-bordered table-responsive-sm">
-                    <thead>
-                      <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <c:forEach var="userItem" items="${users}">
-                        <tr>
-                          <th scope="row">${userItem.id}</th>
-                          <td>${userItem.email}</td>
-                          <td>${userItem.fullName}</td>
-                          <td>
-                            <a href="/admin/user/${userItem.id}" class="btn btn-danger">View
-                            </a>
-                            <a class="btn btn-info" href="/admin/user/update/${userItem.id}">Update</a>
-                            <a class="btn btn-warning" href="/admin/user/delete/${userItem.id}">Delete</a>
-                          </td>
-                        </tr>
-                      </c:forEach>
-                    </tbody>
-                  </table>
+                  <hr />
+
+                  <div class="card" style="width: 60%">
+                    <div class="card-header">User information</div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">ID: ${user.id}</li>
+                      <li class="list-group-item">Email: ${user.email}</li>
+                      <li class="list-group-item">Full name: ${user.fullName}</li>
+                      <li class="list-group-item">Phone number: ${user.phone}</li>
+                      <li class="list-group-item">Address: ${user.address}</li>
+                    </ul>
+                  </div>
+                  <a href="/admin/user" class="btn btn-success mt-3">Back</a>
                 </div>
 
               </div>
@@ -76,8 +65,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
           crossorigin="anonymous"></script>
         <script src="/js/scripts.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-          crossorigin="anonymous"></script>
+
+
       </body>
 
       </html>

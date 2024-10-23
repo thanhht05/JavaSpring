@@ -20,6 +20,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
     <title>Document</title>
   </head>
   <body>
-    <h1>THIS IS HOME PAGE </h1>
+    <h1>THIS IS HOME PAGE</h1>
+    <a class="btn btn-success" href="/admin/user">User</a>
   </body>
 </html>

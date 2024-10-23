@@ -14,10 +14,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public String handleHello() {
-        return "Hello form service";
-    }
-
     public User handlerSaveUser(User user) {
         User newUser = this.userRepository.save(user);
         return newUser;
@@ -30,6 +26,13 @@ public class UserService {
     public List<User> getAllUser() {
         return this.userRepository.findAll();
     }
-    
+
+    public User getUserById(long id) {
+        return this.userRepository.findById(id);
+    }
+
+    public void deleteUserById(long id) {
+        this.userRepository.deleteById(id);
+    }
 
 }
