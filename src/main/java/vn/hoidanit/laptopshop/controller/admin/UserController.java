@@ -1,5 +1,6 @@
-package vn.hoidanit.laptopshop.controller;
+package vn.hoidanit.laptopshop.controller.admin;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,28 +11,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.service.UploadService;
 import vn.hoidanit.laptopshop.service.UserService;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import java.io.IOException;
 
 @Controller
 public class UserController {
     private final UserService userService;
+    private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UploadService uploadService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
+
     }
 
     @GetMapping("/")
     public String getHomePage(Model model) {
         return "home";
-    }
-
-    @GetMapping("/admin")
-    public String getPageAdmin(Model model) {
-        return "admin/dashboard/show";
     }
 
     // table create new user
@@ -42,8 +45,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User huuthanh) {
-        // this.userService.handlerSaveUser(huuthanh);
+    public String createUserPage(Model model, @ModelAttribute("newUser") User huuthanh,
+            @RequestParam("fileName") MultipartFile file) throws IOException {
+
+        String avatar = this.uploadService.handleUploadFile(file, "avatar");
+        huuthanh.setAvatar(avatar);
+
+        huuthanh.setPassword(this.passwordEncoder.encode(huuthanh.getPassword()));
+        String roleName = huuthanh.getRole().getName();
+        huuthanh.setRole(this.userService.getRoleByName(roleName));
+
+        this.userService.handlerSaveUser(huuthanh);
         return "redirect:/admin/user";
     }
 

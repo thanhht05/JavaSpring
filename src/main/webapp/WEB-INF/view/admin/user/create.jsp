@@ -82,13 +82,15 @@
                     <div class="form-upload">
                       <div class="mb-3">
                         <label for="formFile" class="form-label">Avatar</label>
-                        <input class="form-control" type="file" id="avatarFile" accept=".png, .jpg, .jpeg">
+                        <input class="form-control" type="file" id="avatarFile" name="fileName"
+                          accept=".png, .jpg, .jpeg">
                       </div>
                       <div class="col-12 mb-3">
                         <img style="max-height: 250px; display: none;" alt="avatar preview" id="avatarPreview" />
                       </div>
 
-                      <form:select class="form-select form-select-sm mb-3" aria-label="Small select example" path="role.name">
+                      <form:select class="form-select form-select-sm mb-3" aria-label="Small select example"
+                        path="role.name">
                         <form:option value="ADMIN">ADMIN</form:option>
                         <form:option value="USER">USER</form:option>
                       </form:select>
@@ -105,14 +107,9 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
           crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-          crossorigin="anonymous"></script>
-        <script src="js/chart-area-demo.js"></script>
-        <script src="js/chart-bar-demo.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-          crossorigin="anonymous"></script>
-        <script src="js/datatables-simple-demo.js"></script>
+        <script src="/js/scripts.js"></script>
+
+
       </body>
 
       </html>
