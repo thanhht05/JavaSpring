@@ -3,12 +3,13 @@ package vn.hoidanit.laptopshop.controller.admin;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UploadService;
@@ -16,6 +17,8 @@ import vn.hoidanit.laptopshop.service.UserService;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.validation.Valid;
 
 import java.io.IOException;
 
@@ -32,28 +35,38 @@ public class UserController {
 
     }
 
-    @GetMapping("/")
-    public String getHomePage(Model model) {
-        return "home";
-    }
-
     // table create new user
     @RequestMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
+    // @PostMapping("/admin/user/create-user")
+    // public String createUserPage(Model model,
+    // @ModelAttribute("newUser") @Valid User hoidanit,
+    // BindingResult newUserBindingResult,
+    // @RequestParam("hoidanitFile") MultipartFile file) throws IOException {
 
-    @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
-    public String createUserPage(Model model, @ModelAttribute("newUser") User huuthanh,
+    // if(newUserBindingResult.hasErrors()){
+    // return"/admin/user/create-user";
+    // }
+    @PostMapping("/admin/user/create")
+    public String createUserPage(Model model, @ModelAttribute("newUser") @Valid User huuthanh,
+            BindingResult bindingResult,
             @RequestParam("fileName") MultipartFile file) throws IOException {
 
+        if (bindingResult.hasErrors()) {
+            return "admin/user/create";
+        }
         String avatar = this.uploadService.handleUploadFile(file, "avatar");
         huuthanh.setAvatar(avatar);
 
         huuthanh.setPassword(this.passwordEncoder.encode(huuthanh.getPassword()));
         String roleName = huuthanh.getRole().getName();
         huuthanh.setRole(this.userService.getRoleByName(roleName));
+        huuthanh.setAddress(huuthanh.getAddress());
+        huuthanh.setPhone(huuthanh.getPhone());
+        huuthanh.setFullName(huuthanh.getFullName());
 
         this.userService.handlerSaveUser(huuthanh);
         return "redirect:/admin/user";
